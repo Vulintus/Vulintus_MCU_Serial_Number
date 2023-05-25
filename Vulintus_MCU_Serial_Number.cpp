@@ -65,8 +65,16 @@ void Vulintus_MCU_Serial_Number::as_Bytes(uint8_t *buffer)
 }
 
 
-// Return the serial number as a hex C string.
+// Return the serial number as a hex C string, with format unspecified.
 void Vulintus_MCU_Serial_Number::as_CString(char * const string_buffer)
+{
+  uint8_t format = HEX;                 //Default to the hexadecimal ouput, with no UUID dashes.
+  Vulintus_MCU_Serial_Number::as_CString(string_buffer, format);
+}
+
+
+// Return the serial number as a hex C string, with format specified.
+void Vulintus_MCU_Serial_Number::as_CString(char * const string_buffer, uint8_t format)
 {
   //Instantiate the byte buffer
   uint8_t buffer[MCU_SERIALNUM_NUM_BYTES];
@@ -77,36 +85,64 @@ void Vulintus_MCU_Serial_Number::as_CString(char * const string_buffer)
   //Now convert the byte array to a C-string. The buffer must be 33-bytes exactly.
   for (uint8_t i = 0, j = 0; i < 16; i++)
   {
-      // //Place a "-" character before bytes (zero-based indexing) 4, 7, 9, and 11.
-      // if (i == 4 || i == 7 || i == 9 || i == 11)
-      // {
-      //     string_buffer[j++] = '-';
-      // }
 
-      //Note: we are processing 2 digits (one byte) in a single iteration of the loop.
-      uint8_t current_byte = buffer[i];
-      uint8_t low_nibble = current_byte & 0x0F;
-      uint8_t high_nibble = (current_byte >> 4) & 0x0F;
+    //For the UUID format, place a "-" character before bytes (zero-based indexing) 4, 7, 9, and 11.
+    if (format == UUID)
+    {          
+      if (i == UUID_DASH_0 || i == UUID_DASH_1 || i == UUID_DASH_2 || i == UUID_DASH_3)
+      {
+          string_buffer[j++] = '-';
+      }
+    }
+
+    //Note: we are processing 2 digits (one byte) in a single iteration of the loop.
+    uint8_t current_byte = buffer[i];
+    uint8_t low_nibble = current_byte & 0x0F;
+    uint8_t high_nibble = (current_byte >> 4) & 0x0F;
+    if (format == UUID)                 //Use lower-case hexadecimal for UUID format.
+    {        
+      string_buffer[j++] = (low_nibble < 10) ? '0' + low_nibble : ('a' - 10) + low_nibble;
+      string_buffer[j++] = (high_nibble < 10) ? '0' + high_nibble : ('a' - 10) + high_nibble;
+    }
+    else                                //User upper-case hexadecimal by default.
+    { 
       string_buffer[j++] = (low_nibble < 10) ? '0' + low_nibble : ('A' - 10) + low_nibble;
       string_buffer[j++] = (high_nibble < 10) ? '0' + high_nibble : ('A' - 10) + high_nibble;
+    }
   }
 
   //Make absolutely sure that the final byte of the string buffer is the null byte
-  string_buffer[32] = 0;      
+  if (format == UUID)                   
+  {
+    string_buffer[36] = 0;              //UUID format has 37 characters (last character is null).
+  }
+  else 
+  {
+    string_buffer[32] = 0;              //Default hexadecimal format has 2 characters for each byte (last character is null).
+  } 
 }
 
 
-// Return the serial number as an Arduino string.
+// Return the serial number as an Arduino string, with format unspecified.
 String Vulintus_MCU_Serial_Number::as_String(void)
 {
+  uint8_t format = HEX;                 //Default to the hexadecimal ouput, with no UUID dashes.
+  String result = Vulintus_MCU_Serial_Number::as_String(format);
+  return result;
+}
+
+
+// Return the serial number as an Arduino string, with format specified.
+String Vulintus_MCU_Serial_Number::as_String(uint8_t format)
+{
   //Instantiate a C-string buffer to hold the unique ID.
-  uint8_t nchar = 2*MCU_SERIALNUM_NUM_BYTES + 1;
-  char string_buffer[nchar];
+  char string_buffer[37];  //Create a buffer with 37 characters to hold the UUID format (we'll trim it down if otherwise).
 
   //Get the unique ID as a C-string
-  Vulintus_MCU_Serial_Number::as_CString(string_buffer);
+  Vulintus_MCU_Serial_Number::as_CString(string_buffer, format);
 
   //Convert it to a C++ Arduino String object and return it to the caller
   String result = String(string_buffer);
+  result.trim();
   return result;
 }

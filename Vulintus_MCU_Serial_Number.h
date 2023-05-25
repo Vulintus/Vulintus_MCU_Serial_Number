@@ -31,9 +31,19 @@
 #include "Arduino.h"                    //Main include file for the Arduino SDK.
 
 
-// UNIVERSALLY UNIQUE IDENTIFIER (UUID) FORMAT ***********************************************************************//
+// OUTPUT FORMATS ****************************************************************************************************//
+#ifndef HEX
+  #define HEX                           16
+#endif
+#ifndef UUID                
+  #define UUID                          36
+#endif
 #define UUID_CHAR_LEN                   (36u)
-#define UUID
+#define UUID_DASH_0                     (4u)
+#define UUID_DASH_1                     (7u)
+#define UUID_DASH_2                     (9u)
+#define UUID_DASH_3                     (11u)
+
 
 // MEMORY ADDRESSES **************************************************************************************************// 
 #if defined(__SAMD11__) || defined(__SAMD21__) || defined(__SAML21__)
@@ -69,7 +79,9 @@ class Vulintus_MCU_Serial_Number {
 		// Functions. //
     void as_Bytes(uint8_t *buffer);
     void as_CString(char * const string_buffer);
+    void as_CString(char * const string_buffer, uint8_t format);
     String as_String(void);
+    String as_String(uint8_t format);
 
 	private:
 
