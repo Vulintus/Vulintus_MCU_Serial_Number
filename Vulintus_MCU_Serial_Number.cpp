@@ -99,16 +99,13 @@ void Vulintus_MCU_Serial_Number::as_CString(char * const string_buffer, uint8_t 
     uint8_t current_byte = buffer[i];
     uint8_t low_nibble = current_byte & 0x0F;
     uint8_t high_nibble = (current_byte >> 4) & 0x0F;
-    if (format == UUID)                 //Use lower-case hexadecimal for UUID format.
+    char base_char = 'A';               //User upper-case hexadecimal by default.
+    if (format == UUID)                 
     {        
-      string_buffer[j++] = (low_nibble < 10) ? '0' + low_nibble : ('a' - 10) + low_nibble;
-      string_buffer[j++] = (high_nibble < 10) ? '0' + high_nibble : ('a' - 10) + high_nibble;
+      base_char = 'a';                  //Use lower-case hexadecimal for UUID format.
     }
-    else                                //User upper-case hexadecimal by default.
-    { 
-      string_buffer[j++] = (low_nibble < 10) ? '0' + low_nibble : ('A' - 10) + low_nibble;
-      string_buffer[j++] = (high_nibble < 10) ? '0' + high_nibble : ('A' - 10) + high_nibble;
-    }
+    string_buffer[j++] = (low_nibble < 10) ? '0' + low_nibble : (base_char - 10) + low_nibble;
+    string_buffer[j++] = (high_nibble < 10) ? '0' + high_nibble : (base_char - 10) + high_nibble;
   }
 
   //Make absolutely sure that the final byte of the string buffer is the null byte
