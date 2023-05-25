@@ -31,15 +31,21 @@
 #include "Arduino.h"                    //Main include file for the Arduino SDK.
 
 
+// UNIVERSALLY UNIQUE IDENTIFIER (UUID) FORMAT ***********************************************************************//
+#define UUID_CHAR_LEN                   (36u)
+#define UUID
+
 // MEMORY ADDRESSES **************************************************************************************************// 
 #if defined(__SAMD11__) || defined(__SAMD21__) || defined(__SAML21__)
-    #define MCU_SERIALNUM_NUM_BYTES     (16)
+    #define MCU_SERIALNUM_NUM_BYTES     (16u)
+    #define MCU_SERIALNUM_NUM_ADDR      (4u)
     #define MCU_SERIALNUM_ADDR_0        *(volatile uint32_t *)(0x0080A00C)
     #define MCU_SERIALNUM_ADDR_1        *(volatile uint32_t *)(0x0080A040)
     #define MCU_SERIALNUM_ADDR_2        *(volatile uint32_t *)(0x0080A044)
     #define MCU_SERIALNUM_ADDR_3        *(volatile uint32_t *)(0x0080A048)
 #elif defined(__SAMD51__) || defined(__SAME51__)
-    #define MCU_SERIALNUM_NUM_BYTES     (16)
+    #define MCU_SERIALNUM_NUM_BYTES     (16u)
+    #define MCU_SERIALNUM_NUM_ADDR      (4u)
     #define MCU_SERIALNUM_ADDR_0        *(volatile uint32_t *)(0x008061FC)
     #define MCU_SERIALNUM_ADDR_1        *(volatile uint32_t *)(0x00806010)
     #define MCU_SERIALNUM_ADDR_2        *(volatile uint32_t *)(0x00806014)
@@ -61,9 +67,9 @@ class Vulintus_MCU_Serial_Number {
 		~Vulintus_MCU_Serial_Number(void);
 
 		// Functions. //
-        void as_Bytes(uint8_t *buffer);
-        void as_CString(char * const string_buffer);
-        String as_String(void);
+    void as_Bytes(uint8_t *buffer);
+    void as_CString(char * const string_buffer);
+    String as_String(void);
 
 	private:
 
