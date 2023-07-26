@@ -25,8 +25,8 @@
 */
 
 
-#ifndef VULINTUS_MCU_SERIAL_NUMBER_H
-#define VULINTUS_MCU_SERIAL_NUMBER_H
+#ifndef __VULINTUS_MCU_SERIAL_NUMBER_H__
+#define __VULINTUS_MCU_SERIAL_NUMBER_H__
 
 #include "Arduino.h"                    //Main include file for the Arduino SDK.
 
@@ -45,7 +45,7 @@
 #define UUID_DASH_3                     (11u)
 
 
-// MEMORY ADDRESSES **************************************************************************************************// 
+// MEMORY ADDRESSES **************************************************************************************************//
 #if defined(__SAMD11__) || defined(__SAMD21__) || defined(__SAML21__)
     #define MCU_SERIALNUM_NUM_BYTES     (16u)
     #define MCU_SERIALNUM_NUM_ADDR      (4u)
@@ -65,26 +65,14 @@
 #endif
 
 
-// CLASSES ***********************************************************************************************************// 
-class Vulintus_MCU_Serial_Number {
+// NAMESPACE *********************************************************************************************************// 
+namespace Vulintus_MCU_Serial_Number
+{
+    void as_Bytes (uint8_t *buffer);
+    void as_CString (char * const string_buffer);
+    void as_CString (char * const string_buffer, uint8_t format);
+    String as_String (void);
+    String as_String (uint8_t format);
+}
 
-	public:
-
-		// Constructor. //
-		Vulintus_MCU_Serial_Number(void);
-
-        // Destructor. //
-		~Vulintus_MCU_Serial_Number(void);
-
-		// Functions. //
-    void as_Bytes(uint8_t *buffer);
-    void as_CString(char * const string_buffer);
-    void as_CString(char * const string_buffer, uint8_t format);
-    String as_String(void);
-    String as_String(uint8_t format);
-
-	private:
-
-};
-
-#endif      // #ifndef VULINTUS_MCU_SERIAL_NUMBER_H
+#endif      // #ifndef __VULINTUS_MCU_SERIAL_NUMBER_H__
