@@ -14,9 +14,6 @@
 //Serial communication constants.//
 #define SERIAL_BAUD_RATE  115200        //Serial baud rate.
 
-//System information variables. //
-Vulintus_MCU_Serial_Number serialnum = Vulintus_MCU_Serial_Number();
-
 
 //INITIALIZATION ************************************************************//
 void setup() {
@@ -29,8 +26,6 @@ void setup() {
   Print_FW_Filename();          
   Print_FW_Date();
 
-  HEX;
-
 }
 
 
@@ -40,10 +35,10 @@ void loop() {
   Serial.println("\nSERIAL NUMBER:");
 
   //Fetch the serial number as bytes.
-  uint8_t sn_bytes[16];
-  serialnum.as_Bytes(sn_bytes);
+  uint8_t sn_bytes[MCU_SERIALNUM_NUM_BYTES];
+  Vulintus_MCU_Serial_Number::as_Bytes(sn_bytes);
   Serial.print("\tBYTES:          ");
-  for (uint8_t i = 0; i < sizeof(sn_bytes); i++) {
+  for (uint8_t i = 0; i < MCU_SERIALNUM_NUM_BYTES; i++) {
     Serial.print(sn_bytes[i], DEC);
     if (i < (sizeof(sn_bytes) - 1)) {
       Serial.print(" - ");      
@@ -53,46 +48,34 @@ void loop() {
     }
   }
 
-
   //Fetch the serial number as a C string in hexadecimal format.
   uint8_t nchar = 2*MCU_SERIALNUM_NUM_BYTES + 1;
   char sn_cstring[nchar];
-  serialnum.as_CString(sn_cstring);
+  Vulintus_MCU_Serial_Number::as_CString(sn_cstring);
   Serial.print("\tCSTRING (HEX):  ");
   Serial.println(sn_cstring);
-  // for (uint8_t i = 0; i < (nchar - 1); i++) {
-  //   Serial.print(sn_cstring[i]);
-  //   if ((!((i+1) % 8)) && (i != (nchar - 2))) {
-  //     Serial.print("-");
-  //   }
-  // }
-  // Serial.println();
   
 
   //Fetch the serial number as an Arduino string in hexadecimal format.
-  String sn_string = serialnum.as_String();
+  String sn_string = Vulintus_MCU_Serial_Number::as_String();
   Serial.print("\tSTRING (HEX):   ");
   Serial.println(sn_string);
-  // for (uint8_t i = 0; i < sn_string.length(); i++) {
-  //   Serial.print(sn_string.charAt(i));
-  //   if ((!((i+1) % 8)) && (i != (nchar - 2))) {
-  //     Serial.print("-");
-  //   }
-  // }
-  // Serial.println();
 
+#if (MCU_SERIALNUM_NUM_BYTES == 16)     // UUID output options required 16-byte serial numbers.
 
   //Fetch the serial number as a C string in UUID format.
   sn_cstring[UUID_CHAR_LEN];
-  serialnum.as_CString(sn_cstring,UUID);
+  Vulintus_MCU_Serial_Number::as_CString(sn_cstring,UUID);
   Serial.print("\tCSTRING (UUID): ");
   Serial.println(sn_cstring);
   
 
   //Fetch the serial number as an Arduino string in UUID format.
-  sn_string = serialnum.as_String(UUID);
+  sn_string = Vulintus_MCU_Serial_Number::as_String(UUID);
   Serial.print("\tSTRING (UUID):  ");
   Serial.println(sn_string);
+
+#endif
 
   delay(5000);
 
