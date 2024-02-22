@@ -121,8 +121,8 @@ namespace Vulintus_MCU_Serial_Number
         base_char = 'a';                  //Use lower-case hexadecimal for UUID format.
       }
     #endif
-      string_buffer[j++] = (low_nibble < 10) ? '0' + low_nibble : (base_char - 10) + low_nibble;
       string_buffer[j++] = (high_nibble < 10) ? '0' + high_nibble : (base_char - 10) + high_nibble;
+      string_buffer[j++] = (low_nibble < 10) ? '0' + low_nibble : (base_char - 10) + low_nibble;      
     }
 
     //Make absolutely sure that the final byte of the string buffer is the null byte
