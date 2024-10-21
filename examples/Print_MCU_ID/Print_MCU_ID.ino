@@ -9,7 +9,7 @@
 
 
 //Included libraries.//
-#include <Vulintus_MCU_Serial_Number.h>           //Vulintus' MCU serial number library.
+#include "../../Vulintus_MCU_Serial_Number.h"   //Vulintus' MCU serial number library.
 
 //Serial communication constants.//
 #define SERIAL_BAUD_RATE  115200        //Serial baud rate.
