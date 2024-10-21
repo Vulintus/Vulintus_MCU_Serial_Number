@@ -35,6 +35,7 @@
 
 #include "Vulintus_MCU_Serial_Number.h"
 
+
 namespace Vulintus_MCU_Serial_Number
 {
 
