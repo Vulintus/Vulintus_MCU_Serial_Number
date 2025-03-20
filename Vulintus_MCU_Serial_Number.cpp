@@ -75,6 +75,15 @@ namespace Vulintus_MCU_Serial_Number
         buffer[i * 4 + 3] = (uint8_t)(serialnum_addr[i] >> 0);
     }        
 
+  #elif defined(ARDUINO_ARCH_NRF52840)  // Nordic NRF52840 microcontrollers.
+
+    //Grab the NRF52840 unique ID bytes.
+    for (uint8_t i = 0; i < MCU_SERIALNUM_NUM_ADDR; i++) {
+      for (uint8_t j = 0; j < 4; j++) {
+        buffer[i * 4 + j] = NRF_FICR->DEVICEID[i] >> (8 * (3 - j));
+      }
+    }
+
   #endif
   }
 

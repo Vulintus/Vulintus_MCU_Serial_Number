@@ -66,6 +66,9 @@
     #define MCU_SERIALNUM_ADDR_2        *(volatile uint32_t *)(0x00806014)
     #define MCU_SERIALNUM_ADDR_3        *(volatile uint32_t *)(0x00806018)
   #endif
+#elif defined(ARDUINO_ARCH_NRF52840)
+  #define MCU_SERIALNUM_NUM_BYTES       (8u)
+  #define MCU_SERIALNUM_NUM_ADDR        (2u)
 #else
   #error "Target MCU is not recognized in the serial number library!"
 #endif
