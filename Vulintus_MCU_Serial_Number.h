@@ -43,6 +43,37 @@
 #endif
 
 
+// DEFINITIONS *******************************************************************************************************//
+#if !defined(__SAMD11__)
+  #if defined(__SAMD11C14A__) || defined(__SAMD11D14A__)
+    #define __SAMD11__
+  #endif
+#endif
+
+#if !defined(__SAMD21__)
+  #if defined(__SAMD21E17A__) || defined(__SAMD21E18A__) || \
+      defined(__SAMD21G17A__) || defined(__SAMD21G18A__) || \
+      defined(__SAMD21J17A__) || defined(__SAMD21J18A__)
+    #define __SAMD21__
+  #endif
+#endif
+
+#if !defined(__SAMD51__)
+  #if defined(__SAMD51G18A__) || defined(__SAMD51G19A__) || \
+      defined(__SAMD51J18A__) || defined(__SAMD51J19A__) || defined(__SAMD51J20A__) || \
+      defined(__SAMD51N19A__) || defined(__SAMD51N20A__) || \
+      defined(__SAMD51P19A__) || defined(__SAMD51P20A__)
+    #define __SAMD51__
+  #endif
+#endif
+
+#if !defined(__NRF52__)
+    #if defined(ARDUINO_ARCH_NRF52840)
+        #define __NRF52__
+    #endif
+#endif
+
+
 // MEMORY ADDRESSES **************************************************************************************************//
 #if defined(ARDUINO_ARCH_AVR)           // AVR microcontrollers.
   #if defined(__AVR_ATmega328PB__)
