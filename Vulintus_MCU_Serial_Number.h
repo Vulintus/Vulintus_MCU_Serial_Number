@@ -1,34 +1,49 @@
-/*  Vulintus_MCU_Serial_Number.h - copyright Vulintus, Inc., 2023
+/*  
 
-    Most of the microcontrollers used in Vulintus products have unique serial
-    numbers embedded in their nonvolatile memory. Vulintus uses the serial 
-    number from the primary microcontroller in each device as the identifying
-    serial number for entire for the device.
+  Vulintus_MCU_Serial_Number.h
+  
+  copyright (c) 2023, Vulintus, Inc. All rights reserved.
 
-    * Microchip AVR microcontrollers.
-        - The ATmega328PB microcontroller has a 10-byte unique ID stored in its 
-          signature bytes starting at address 0x0E (datasheet section 32.5).
-        - The ATmega328P, ATmega2560, and ATtiny85 have a 9-byte ID, which is
-          not unique, stored in their signature bytes starting at address 0x0E 
-          (not specified in datasheet), which skips address 0x14;
+  Most of the microcontrollers used in Vulintus products have unique serial
+  numbers embedded in their nonvolatile memory. Vulintus uses the serial 
+  number from the primary microcontroller in each device as the identifying
+  serial number for the entire device.
 
-    * Microchip SAM-D SAM-E microcontrollers.
-        - Each SAM microcontroller has a unique 128-bit serial number which is a
-          concatenation of four 32-bit words.
-        - The uniqueness of the serial number is guaranteed only when using all 
-          128 bits.
-        - The memory locations for each SAM variant are found in the following 
-          datasheet sections:
-            * SAMD11 -          Section 9.6.
-            * SAMD21 -          Section 9.3.3.
-            * SAML21 -          Section 11.5.
-            * SAMD5x / SAME5x - Section 9.6.
+  * Microchip AVR microcontrollers.
+      - The ATmega328PB microcontroller has a 10-byte unique ID stored in its 
+        signature bytes starting at address 0x0E (datasheet section 32.5).
+      - The ATmega328P, ATmega2560, and ATtiny85 have a 9-byte ID, which is
+        not unique, stored in their signature bytes starting at address 0x0E 
+        (not specified in datasheet), which skips address 0x14;
 
+  * Microchip SAM-D SAM-E microcontrollers.
+      - Each SAM microcontroller has a unique 128-bit serial number which is a
+        concatenation of four 32-bit words.
+      - The uniqueness of the serial number is guaranteed only when using all 
+        128 bits.
+      - The memory locations for each SAM variant are found in the following 
+        datasheet sections:
+          * SAMD11 -          Section 9.6.
+          * SAMD21 -          Section 9.3.3.
+          * SAML21 -          Section 11.5.
+          * SAMD5x / SAME5x - Section 9.6.
 
-    UPDATE LOG:
-      2023-05-24 - Drew Sloan - Library adapted from David Pruitt's HabiTrak-
-                                specific SAMD serial number library.
-      2024-02-21 - Drew Sloan - Added support for some AVR microcontrollers.
+  * Nordic nRF52840 Bluetooth system-on-chip microcontrollers.
+      - The nRF52840 has a unique 64-bit device identifier stored in its 
+        Factory Information Configuration Registers (FICR).
+          * Datasheet sections 4.4.1.3 and 4.4.1.4.
+
+  *  NXP RT1176 dual-core microcontroller (used in the Coral Dev Board).
+      - The Coral Dev Board has a unique 64-bit device identifier stored in 
+        its eFuses.
+          * Datasheet section 5.4.3.
+
+  UPDATE LOG:
+    2023-05-24 - Drew Sloan - Library adapted from David Pruitt's SAMD-specific
+                              serial number library.
+    2024-02-21 - Drew Sloan - Added support for some AVR microcontrollers.
+    2025-03-20 - Drew Sloan - Added support for the Nordic nRF52840 SoC microcontroller.
+    2025-11-07 - Drew Sloan - Added support for the Coral Dev Board Micro.
 
 */
 
@@ -100,6 +115,11 @@
 #elif defined(ARDUINO_ARCH_NRF52840)
   #define MCU_SERIALNUM_NUM_BYTES       (8u)
   #define MCU_SERIALNUM_NUM_ADDR        (2u)
+#elif defined(ARDUINO_ARCH_CORAL_MICRO)
+  #define MCU_SERIALNUM_NUM_BYTES       (8u)
+  #define MCU_SERIALNUM_NUM_ADDR        (2u)
+  #define MCU_SERIALNUM_ADDR_0          *(volatile uint32_t *)(0x00000410)
+  #define MCU_SERIALNUM_ADDR_1          *(volatile uint32_t *)(0x00000420)
 #else
   #error "Target MCU is not recognized in the serial number library!"
 #endif
