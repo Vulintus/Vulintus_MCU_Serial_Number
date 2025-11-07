@@ -2,6 +2,8 @@
 
 An Arduino-compatible library for reading unique hardware identifiers from microcontrollers with embedded serial numbers.
 
+_Disclaimer: This README file was AI-generated, but checked for accuracy by a human._
+
 ## Overview
 
 This library provides a unified interface to access the unique hardware identifiers available on various microcontroller architectures. Most microcontrollers have unique serial numbers or device IDs embedded in their nonvolatile memory, and this library abstracts the platform-specific details to provide a consistent API across different MCU families.
