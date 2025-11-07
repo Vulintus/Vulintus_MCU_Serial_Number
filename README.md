@@ -121,10 +121,10 @@ See the included example sketch `examples/Print_MCU_ID/Print_MCU_ID.ino` for a c
 
 The library automatically detects the target microcontroller architecture and uses the appropriate method to read the hardware identifier:
 
-- **AVR**: Reads from signature bytes using `boot_signature_byte_get()`
-- **SAMD**: Reads from specific memory addresses containing the 128-bit unique ID
-- **nRF52840**: Reads from FICR device ID registers
-- **Coral Micro**: Reads from eFuse registers
+- **Microchip AVR**: Reads from signature bytes using `boot_signature_byte_get()`
+- **Microchip SAMD**: Reads from specific memory addresses containing the 128-bit unique ID
+- **NNordic nRF52840**: Reads from FICR device ID registers
+- **NXP RT1176**: Reads from eFuse registers
 
 ## Limitations
 
@@ -138,6 +138,8 @@ Copyright © 2023 Vulintus, Inc.
 
 ## Version History
 
+- **2025-11-07**: Added support for the Coral Dev Board Micro
+- **2025-03-20**: Added support for the Nordic nRF52840 SoC microcontroller
 - **2024-02-21**: Added support for AVR microcontrollers
 - **2023-05-24**: Initial release, adapted from SAMD-specific library
 
