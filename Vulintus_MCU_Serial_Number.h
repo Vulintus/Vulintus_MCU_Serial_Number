@@ -9,6 +9,10 @@
   number from the primary microcontroller in each device as the identifying
   serial number for the entire device.
 
+  * Espressif ESP32 WiFi/Bluetooth system-on-chip microcontrollers.
+      - The ESP32 has a unique default MAC address stored in its eFuse block.
+          * ESP32-C3 Technical Reference Manual section 4.5.
+
   * Microchip AVR microcontrollers.
       - The ATmega328PB microcontroller has a 10-byte unique ID stored in its 
         signature bytes starting at address 0x0E (datasheet section 32.5).
@@ -44,7 +48,7 @@
     2024-02-21 - Drew Sloan - Added support for some AVR microcontrollers.
     2025-03-20 - Drew Sloan - Added support for the Nordic nRF52840 SoC microcontroller.
     2025-11-07 - Drew Sloan - Added support for the Coral Dev Board Micro.
-
+    2025-12-04 - Drew Sloan - Added support for the Espressif ESP32 SoC microcontroller.
 */
 
 
@@ -55,6 +59,8 @@
 
 #if defined(ARDUINO_ARCH_AVR)           // AVR microcontrollers.
   #include <avr/boot.h>
+#elif defined(ARDUINO_ARCH_ESP32)       // Espressif ESP32 microcontrollers.
+  #include "esp_mac.h"
 #endif
 
 
@@ -119,7 +125,9 @@
   #define MCU_SERIALNUM_NUM_BYTES       (8u)
   #define MCU_SERIALNUM_NUM_ADDR        (2u)
   #define MCU_SERIALNUM_ADDR_0          *(volatile uint32_t *)(0x00000410)
-  #define MCU_SERIALNUM_ADDR_1          *(volatile uint32_t *)(0x00000420)
+  #define MCU_SERIALNUM_ADDR_1          *(volatile uint32_t *)(0x00000420)  
+#elif defined(ARDUINO_ARCH_ESP32)
+  #define MCU_SERIALNUM_NUM_BYTES       (6u)
 #else
   #error "Target MCU is not recognized in the serial number library!"
 #endif

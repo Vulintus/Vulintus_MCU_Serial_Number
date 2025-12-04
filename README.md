@@ -10,6 +10,9 @@ This library provides a unified interface to access the unique hardware identifi
 
 ## Supported Microcontrollers
 
+### Espressif
+- **ESP32**: All ESP32 variants are programmed with a unique default MAC address stored in the eFuse block.
+
 ### Microchip AVR
 - **ATmega328PB**: 10-byte unique ID stored in signature bytes (datasheet section 32.5)
 - **ATmega328P, ATmega2560, ATtiny85**: 9-byte ID stored in signature bytes (note: not guaranteed unique)
@@ -121,6 +124,7 @@ See the included example sketch `examples/Print_MCU_ID/Print_MCU_ID.ino` for a c
 
 The library automatically detects the target microcontroller architecture and uses the appropriate method to read the hardware identifier:
 
+- **Espressif ESP32**: Reads from unique default MAC address using `esp_efuse_mac_get_default()`
 - **Microchip AVR**: Reads from signature bytes using `boot_signature_byte_get()`
 - **Microchip SAMD**: Reads from specific memory addresses containing the 128-bit unique ID
 - **NNordic nRF52840**: Reads from FICR device ID registers
@@ -138,6 +142,7 @@ Copyright © 2023 Vulintus, Inc.
 
 ## Version History
 
+- **2025-12-04**: Added support for the ESP32
 - **2025-11-07**: Added support for the Coral Dev Board Micro
 - **2025-03-20**: Added support for the Nordic nRF52840 SoC microcontroller
 - **2024-02-21**: Added support for AVR microcontrollers

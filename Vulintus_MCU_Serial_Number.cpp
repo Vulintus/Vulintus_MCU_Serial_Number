@@ -76,6 +76,15 @@ namespace Vulintus_MCU_Serial_Number
         buffer[i * 4 + 3] = (uint8_t)(serialnum_addr[i] >> 0);
     }        
 
+  #elif defined(ARDUINO_ARCH_ESP32)   // Espressif ESP32 microcontrollers.
+
+    //Grab the ESP32 unique default MAC address bytes.
+    uint8_t mac[6];
+    esp_efuse_mac_get_default(mac);
+    for (uint8_t i = 0; i < MCU_SERIALNUM_NUM_BYTES; i++) {
+      buffer[i] = mac[i];
+    }
+
   #endif
   }
 
