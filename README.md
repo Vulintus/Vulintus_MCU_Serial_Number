@@ -75,14 +75,14 @@ Returns the serial number as an Arduino `String` object in the specified format.
 
 ```cpp
 String sn_hex = Vulintus_MCU_Serial_Number::as_String(HEX);  // Hexadecimal
-String sn_uuid = Vulintus_MCU_Serial_Number::as_String(UUID); // UUID format (16-byte MCUs only)
+String sn_uuid = Vulintus_MCU_Serial_Number::as_String(UUID); // UUID format (16-byte serial numbers only)
 ```
 
 #### `as_CString(buffer)`
 Fills a character buffer with the serial number as a C-string in hexadecimal format.
 
 ```cpp
-char buffer[33]; // For 16-byte MCUs (32 hex chars + null terminator)
+char buffer[33]; // For 16-byte serial numbers (32 hex chars + null terminator)
 Vulintus_MCU_Serial_Number::as_CString(buffer);
 ```
 
@@ -94,7 +94,7 @@ char hex_buffer[33];
 char uuid_buffer[37]; // UUID format requires 37 characters (36 + null terminator)
 
 Vulintus_MCU_Serial_Number::as_CString(hex_buffer, HEX);
-Vulintus_MCU_Serial_Number::as_CString(uuid_buffer, UUID); // 16-byte MCUs only
+Vulintus_MCU_Serial_Number::as_CString(uuid_buffer, UUID); // -byte MCUs only
 ```
 
 #### `as_Bytes(buffer)`
@@ -108,13 +108,13 @@ Vulintus_MCU_Serial_Number::as_Bytes(bytes);
 ### Output Formats
 
 - **HEX**: Standard hexadecimal representation (e.g., `1A2B3C4D5E6F7890`)
-- **UUID**: Standard UUID format with dashes (e.g., `1a2b3c4d-5e6f-7890-abcd-ef1234567890`) - *only available for 16-byte serial numbers*
+- **UUID**: Standard UUID format with dashes (e.g., `1a2b3c4d-5e6f-7890-abcd-ef1234567890`) - *only available for -byte serial numbers*
 
 ### Constants
 
 - `MCU_SERIALNUM_NUM_BYTES`: Number of bytes in the serial number for the current MCU
 - `HEX`: Format constant for hexadecimal output
-- `UUID`: Format constant for UUID output (16-byte MCUs only)
+- `UUID`: Format constant for UUID output (16-byte serial numbers only)
 
 ## Example
 
