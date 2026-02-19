@@ -55,12 +55,14 @@
 #ifndef __VULINTUS_MCU_SERIAL_NUMBER_H__
 #define __VULINTUS_MCU_SERIAL_NUMBER_H__
 
-#include "Arduino.h"                    // Main include file for the Arduino SDK.
+#include "Arduino.h"                        // Main include file for the Arduino SDK.
 
-#if defined(ARDUINO_ARCH_AVR)           // AVR microcontrollers.
+#if defined(ARDUINO_ARCH_AVR)               // AVR microcontrollers.
   #include <avr/boot.h>
-#elif defined(ARDUINO_ARCH_ESP32)       // Espressif ESP32 microcontrollers.
+#elif defined(ARDUINO_ARCH_ESP32)           // Espressif ESP32 microcontrollers.
   #include "esp_mac.h"
+#elif defined(ARDUINO_ARCH_NRF52_ADAFRUIT)  // Adafruit NRF52 microcontrollers.
+  #include <Adafruit_TinyUSB.h>
 #endif
 
 
@@ -89,7 +91,7 @@
 #endif
 
 #if !defined(__NRF52__)
-    #if defined(ARDUINO_ARCH_NRF52840)
+    #if defined(ARDUINO_ARCH_NRF52840) || defined(ARDUINO_ARCH_NRF52_ADAFRUIT)
         #define __NRF52__
     #endif
 #endif
@@ -118,7 +120,7 @@
     #define MCU_SERIALNUM_ADDR_2        *(volatile uint32_t *)(0x00806014)
     #define MCU_SERIALNUM_ADDR_3        *(volatile uint32_t *)(0x00806018)
   #endif
-#elif defined(ARDUINO_ARCH_NRF52840)
+#elif defined(__NRF52__)
   #define MCU_SERIALNUM_NUM_BYTES       (8u)
   #define MCU_SERIALNUM_NUM_ADDR        (2u)
 #elif defined(ARDUINO_ARCH_CORAL_MICRO)
