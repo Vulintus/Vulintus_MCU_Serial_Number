@@ -55,13 +55,13 @@
 #ifndef __VULINTUS_MCU_SERIAL_NUMBER_H__
 #define __VULINTUS_MCU_SERIAL_NUMBER_H__
 
-#include "Arduino.h"                        // Main include file for the Arduino SDK.
+#include "Arduino.h"                  // Main include file for the Arduino SDK.
 
-#if defined(ARDUINO_ARCH_AVR)               // AVR microcontrollers.
+#if defined(ARDUINO_ARCH_AVR)         // AVR microcontrollers.
   #include <avr/boot.h>
-#elif defined(ARDUINO_ARCH_ESP32)           // Espressif ESP32 microcontrollers.
+#elif defined(ARDUINO_ARCH_ESP32)     // Espressif ESP32 microcontrollers.
   #include "esp_mac.h"
-#elif defined(ARDUINO_ARCH_NRF52_ADAFRUIT)  // Adafruit NRF52 microcontrollers.
+#elif defined(ARDUINO_ARCH_NRF52)     // Nordic NRF52 microcontrollers.
   #include <Adafruit_TinyUSB.h>
 #endif
 
@@ -91,7 +91,7 @@
 #endif
 
 #if !defined(__NRF52__)
-    #if defined(ARDUINO_ARCH_NRF52840) || defined(ARDUINO_ARCH_NRF52_ADAFRUIT)
+    #if defined(ARDUINO_ARCH_NRF52840) || defined(ARDUINO_ARCH_NRF52)
         #define __NRF52__
     #endif
 #endif
